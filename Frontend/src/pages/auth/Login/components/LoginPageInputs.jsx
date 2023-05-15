@@ -3,6 +3,9 @@ import { setEmail, setPassword, login } from '../../../../store/index';
 import { useThunk } from '../../../../hooks/useThunks';
 import InputWithLabel from '../../../../shared/components/InputWithLabel';
 import CustomPrimaryButton from '../../../../shared/components/CustomPrimaryButton';
+import RedirectInlineLink from '../../../../shared/components/RedirectInlineButton';
+import { useValidateForm } from '../../../../hooks/useValidateForm';
+import AlertNotifaction from '../../../../shared/components/AlertNotifaction';
 
 export const LoginPageInputs = () => {
   // ** Login Thunk
@@ -16,10 +19,14 @@ export const LoginPageInputs = () => {
       password: state.login.password,
     };
   });
+  // ** Validate Form
+
+  const isValid = useValidateForm(email, password);
 
   // ** Render
   return (
     <>
+      <AlertNotifaction message={isError} />
       <InputWithLabel
         label="Email"
         type="email"
@@ -38,7 +45,14 @@ export const LoginPageInputs = () => {
       <CustomPrimaryButton
         label="Login"
         onClick={() => doLogin()}
-        disabled={isLoading}
+        isLoading={isLoading}
+        disabled={isValid}
+      />
+
+      <RedirectInlineLink
+        text="I dont Have Account"
+        redirectLink="/register"
+        redirectText="Register"
       />
     </>
   );
