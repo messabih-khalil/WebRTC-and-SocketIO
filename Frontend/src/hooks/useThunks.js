@@ -6,13 +6,18 @@ export const useThunk = thunk => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const runThunk = useCallback(() => {
+    // Clear Previus Error Message
+    setError('');
+    //
     setIsLoading(true);
     dispatch(thunk())
       .unwrap()
       .catch(e => {
-        setError(e);
+        setError(e.message);
       })
-      .finally(_ => setIsLoading(false));
+      .finally(_ => {
+        setIsLoading(false);
+      });
   }, [dispatch, thunk]);
 
   return [runThunk, isLoading, error];
