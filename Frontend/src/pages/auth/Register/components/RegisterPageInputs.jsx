@@ -5,8 +5,16 @@ import {
   setRegisterPassword,
 } from '../../../../store/index';
 import InputWithLabel from '../../../../shared/components/InputWithLabel';
+import RedirectInlineLink from '../../../../shared/components/RedirectInlineButton';
+import CustomPrimaryButton from '../../../../shared/components/CustomPrimaryButton';
+import { useThunk } from '../../../../hooks/useThunks';
+import { register } from '../../../../store/thunks/register';
+import { useValidateForm } from '../../../../hooks/useValidateForm';
+import AlertNotifaction from '../../../../shared/components/AlertNotifaction';
 
 export const RegisterPageInputs = () => {
+  // ** Register Thunk
+  const [doRegister, isLoading, isError] = useThunk(register);
   // ** Create Action Dispatcher
   const dispatch = useDispatch();
   // **
@@ -17,10 +25,14 @@ export const RegisterPageInputs = () => {
       password: state.register.password,
     };
   });
+  // ** Validate Form
+
+  const isValid = useValidateForm(email, password);
 
   // ** Render
   return (
     <>
+      <AlertNotifaction message={isError} />
       <InputWithLabel
         label="Username"
         type="text"
@@ -44,6 +56,19 @@ export const RegisterPageInputs = () => {
         value={password}
         setValue={value => dispatch(setRegisterPassword(value))}
       ></InputWithLabel>
+
+      <CustomPrimaryButton
+        label="Register"
+        onClick={() => doRegister()}
+        isLoading={isLoading}
+        disabled={isValid}
+      />
+
+      <RedirectInlineLink
+        text="I Have Account"
+        redirectLink="/login"
+        redirectText="Login"
+      />
     </>
   );
 };
