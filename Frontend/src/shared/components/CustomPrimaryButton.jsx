@@ -1,7 +1,7 @@
 import { Button } from '@mui/material';
 import React from 'react';
 
-const CustomPrimaryButton = ({ label, disabled, onClick }) => {
+const CustomPrimaryButton = ({ label, disabled, onClick, isLoading }) => {
   return (
     <Button
       variant="contained"
@@ -14,7 +14,7 @@ const CustomPrimaryButton = ({ label, disabled, onClick }) => {
         width: '100%',
         height: '40px',
       }}
-      disabled={disabled}
+      disabled={!disabled || isLoading}
       onClick={onClick}
     >
       {label}
