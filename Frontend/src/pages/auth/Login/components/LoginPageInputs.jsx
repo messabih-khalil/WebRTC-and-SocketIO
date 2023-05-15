@@ -1,0 +1,45 @@
+import { useSelector, useDispatch } from 'react-redux';
+import { setEmail, setPassword, login } from '../../../../store/index';
+import { useThunk } from '../../../../hooks/useThunks';
+import InputWithLabel from '../../../../shared/components/InputWithLabel';
+import CustomPrimaryButton from '../../../../shared/components/CustomPrimaryButton';
+
+export const LoginPageInputs = () => {
+  // ** Login Thunk
+  const [doLogin, isLoading, isError] = useThunk(login);
+  // ** Create Action Dispatcher
+  const dispatch = useDispatch();
+  // **
+  const { email, password } = useSelector(state => {
+    return {
+      email: state.login.email,
+      password: state.login.password,
+    };
+  });
+
+  // ** Render
+  return (
+    <>
+      <InputWithLabel
+        label="Email"
+        type="email"
+        placeholder="Enter Your Email"
+        value={email}
+        setValue={value => dispatch(setEmail(value))}
+      ></InputWithLabel>
+      <br />
+      <InputWithLabel
+        label="Password"
+        type="password"
+        placeholder="Enter Your Password"
+        value={password}
+        setValue={value => dispatch(setPassword(value))}
+      ></InputWithLabel>
+      <CustomPrimaryButton
+        label="Login"
+        onClick={() => doLogin()}
+        disabled={isLoading}
+      />
+    </>
+  );
+};
