@@ -3,8 +3,8 @@ import { loginReducer, setEmail, setPassword } from './slices/loginSlice';
 import {
   registerReducer,
   setUsername,
-  setPassword as setRegisterPassword,
-  setEmail as setRegisterEmail,
+  setRegisterPassword,
+  setRegisterEmail,
 } from './slices/registerSlice';
 
 const store = configureStore({
