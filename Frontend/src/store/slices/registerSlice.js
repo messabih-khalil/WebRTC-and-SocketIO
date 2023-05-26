@@ -1,8 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { register } from '../thunks/register';
-import { redirect } from 'react-router-dom';
+import { redirectURL } from '../../utils/redirectUrl';
+
 const registerSlice = createSlice({
-  name: 'login',
+  name: 'register',
   initialState: {
     username: '',
     email: '',
@@ -23,11 +24,13 @@ const registerSlice = createSlice({
   extraReducers(builder) {
     builder.addCase(register.fulfilled, (state, action) => {
       state.token = action.payload;
-      return redirect('/');
+      localStorage.setItem('token', state.token);
+      redirectURL('/login');
     });
   },
 });
 
-export const { setRegisterEmail, setRegisterPassword, setUsername } = registerSlice.actions;
+export const { setRegisterEmail, setRegisterPassword, setUsername } =
+  registerSlice.actions;
 
 export const registerReducer = registerSlice.reducer;
