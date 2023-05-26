@@ -1,6 +1,6 @@
-import { redirect } from 'react-router-dom';
+import { redirectURL } from './redirectUrl';
 
 export const logout = () => {
   localStorage.clear();
-  redirect('/login');
+  redirectURL('/login');
 };
