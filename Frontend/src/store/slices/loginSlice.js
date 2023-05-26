@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { login } from '../thunks/login';
-import { redirect } from 'react-router-dom';
-
+import { redirectURL } from '../../utils/redirectUrl';
 const loginSlice = createSlice({
   name: 'login',
   initialState: {
@@ -20,7 +19,8 @@ const loginSlice = createSlice({
   extraReducers(builder) {
     builder.addCase(login.fulfilled, (state, action) => {
       state.token = action.payload;
-      return redirect('/');
+      localStorage.setItem('token', state.token);
+      redirectURL('/dashboard');
     });
   },
 });
