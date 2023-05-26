@@ -12,9 +12,6 @@ export const useThunk = thunk => {
     setIsLoading(true);
     dispatch(thunk())
       .unwrap()
-      .catch(e => {
-        setError(e.message);
-      })
       .finally(_ => {
         setIsLoading(false);
       });
